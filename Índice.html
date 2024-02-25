@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style>
+		#game-board {
+			position: relative;
+			height: 400px;
+			width: 400px;
+			border: 1px solid black;
+		}
+
+		#player {
+			position: absolute;
+			height: 50px;
+			width: 50px;
+			background-color: blue;
+			bottom: 0;
+		}
+
+		#obstacle {
+			position: absolute;
+			height: 100px;
+			width: 20px;
+			background-color: red;
+			right: 0;
+			bottom: 0;
+		}
+	</style>
+</head>
+<body>
+	<div id="game-board">
+		<div id="player"></div>
+		<div id="obstacle"></div>
+	</div>
+	<script>
+		const player = document.getElementById('player');
+		const gameBoard = document.getElementById('game-board');
+
+		let playerTop = 0;
+
+		gameBoard.addEventListener('touchstart', (event) => {
+			const touch = event.touches[0];
+			playerTop = touch.pageY;
+		});
+
+		gameBoard.addEventListener('touchend', (event) => {
+			const touch = event.changedTouches[0];
+			const swipeDistance = touch.pageY - playerTop;
+
+			if (swipeDistance > 50) {
+				// User swiped up, move player up
+				player.style.top = `${playerTop - 50}px`;
+			} else if (swipeDistance < -50) {
+				// User swiped down, move player down
+				player.style.top = `${playerTop + 50}px`;
+			}
+		});
+	</script>
+</body>
+</html>
